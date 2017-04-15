@@ -110,7 +110,7 @@ shinyServer(function(input, output) {
     set.seed(1234)
     wordcloud_rep(words = d$word, freq = d$freq, min.freq = 1,
               min.words=20, random.order=FALSE, use.r.layout=FALSE,
-              colors=brewer.pal(200, "Dark2"), scale=c(20,0.4))
+              colors=brewer.pal(200, "Dark2"), scale=c(20,0.2))
     
     
    
