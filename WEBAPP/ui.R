@@ -55,7 +55,6 @@ fluidPage(
                tabsetPanel(
                  tabPanel("Top Search Queries", plotOutput("plot", "1600px")),
                  tabPanel("Top Searched (Word Cloud)", plotOutput("plot4")),
-                 tabPanel("Top Search Results", plotOutput("plot2", width = "1600px")),
                  tabPanel("Average Time Spent By Domain", plotOutput("plot3" ,width = "1600px"))
                  
                )
