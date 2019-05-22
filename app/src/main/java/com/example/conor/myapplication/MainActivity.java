@@ -2,36 +2,28 @@ package com.example.conor.myapplication;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-
 import android.os.AsyncTask;
-
 import android.os.StrictMode;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-
 import android.widget.Button;
 import android.view.*;
 import android.widget.EditText;
-
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
 import java.net.URL;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
-
 import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
     public ProgressDialog progressDialog;
     public Thread mThread;
 
-    ArrayList<items> results = new ArrayList<items>();
-    ArrayList<String> resultsToString = new ArrayList<String>();
+    ArrayList < items > results = new ArrayList < items > ();
+    ArrayList < String > resultsToString = new ArrayList < String > ();
     public static String ipAddress = "10.0.2.2";
     public static String port = "3310";
     public static String searchID;
@@ -61,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         searchQuery = (EditText) findViewById(R.id.input_search);
 
         progressDialog = new ProgressDialog(MainActivity.this,
-                ProgressDialog.STYLE_SPINNER);
+            ProgressDialog.STYLE_SPINNER);
         progressDialog.setMessage("Searching...");
 
         //Returns results from api and stores results in table
@@ -103,11 +95,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public class DownloadTask extends AsyncTask<String, Void, JsonObject> {
+    public class DownloadTask extends AsyncTask < String, Void, JsonObject > {
         public Boolean finished = false;
 
         @Override
-        protected JsonObject doInBackground(String... params) {
+        protected JsonObject doInBackground(String...params) {
             progressDialog.show();
             try {
                 downloadContent(params[0]);
@@ -128,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(JsonObject result) {
             Gson g = new Gson();
             resultsToString = null;
-            resultsToString = new ArrayList<>();
+            resultsToString = new ArrayList < > ();
 
 
             if (result != null) {
@@ -150,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("S", "Success");
 
 
-               String s = "SELECT SearchID FROM SearchQueries WHERE Query='" + searchQuery.getText() + "' ORDER BY 'SearchID' DESC";
+                String s = "SELECT SearchID FROM SearchQueries WHERE Query='" + searchQuery.getText() + "' ORDER BY 'SearchID' DESC";
                 ResultSet rs = stmt.executeQuery(s);
 
 
@@ -160,14 +152,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 MainActivity.searchID = searchId;
                 int i = 1;
-                for(String theResult : resultsToString){
+                for (String theResult: resultsToString) {
                     try {
 
                         s = "Insert INTO SearchResults  VALUES ('" + searchId + "', '" + theResult + "', " + i + ", '0') ";
                         stmt.executeUpdate(s);
                         i++;
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
 
                     }
@@ -195,8 +186,8 @@ public class MainActivity extends AppCompatActivity {
             try {
                 URL url = new URL(myurl);
                 HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-                conn.setReadTimeout(10000 /* milliseconds */);
-                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setReadTimeout(10000 /* milliseconds */ );
+                conn.setConnectTimeout(15000 /* milliseconds */ );
                 conn.setRequestMethod("GET");
                 conn.setDoInput(true);
                 conn.connect();
@@ -209,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
                 JsonParser jsonParser = new JsonParser();
                 jsonObject = (JsonObject) jsonParser.parse(
-                        new InputStreamReader(is, "UTF-8"));
+                    new InputStreamReader(is, "UTF-8"));
             } finally {
                 if (is != null) {
                     is.close();
@@ -218,9 +209,4 @@ public class MainActivity extends AppCompatActivity {
             return jsonObject;
         }
     }
-
 }
-
-
-
-
